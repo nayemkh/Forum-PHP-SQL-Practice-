@@ -17,7 +17,7 @@ $fields = $registration->fields;
   <body>
       <main>
           <form method="POST" action="">
-          <?php foreach ($fields as $name => $field) { ?>
+            <?php foreach ($fields as $name => $field) { ?>
                 <label for="<?=$name?>"><?=$field['placeholder']?></label>
                 <input name="<?=$name?>" type="<?=$field['type']?>" placeholder="<?=$field['placeholder']?>"/>
             <?php } ?>
