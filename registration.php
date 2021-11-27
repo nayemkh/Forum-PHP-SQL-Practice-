@@ -4,6 +4,7 @@ include_once 'global/autoloader.php';
 
 $registration = new Registration\Controller();
 $fields = $registration->fields;
+$registration->run();
 ?>
 
 <!DOCTYPE html>
@@ -17,10 +18,16 @@ $fields = $registration->fields;
   <body>
       <main>
           <form method="POST" action="">
+              <input type="hidden" name="submit" value="1">
             <?php foreach ($fields as $name => $field) { ?>
-                <label for="<?=$name?>"><?=$field['placeholder']?></label>
-                <input name="<?=$name?>" type="<?=$field['type']?>" placeholder="<?=$field['placeholder']?>"/>
+                <div class="form-group">
+                    <label for="<?=$name?>"><?=$field['placeholder']?></label>
+                    <input name="<?=$name?>" type="<?=$field['type']?>" placeholder="<?=$field['placeholder']?>"/>
+                </div>
             <?php } ?>
+            <div class="form-action">
+                <button type="submit" class="button-link">Register</button>
+            </div>
           </form>
       </main>
   </body>
