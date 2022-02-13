@@ -48,6 +48,43 @@ class Controller
                     $submissionData = $this->submissionData;
                 }
                 $this->validate($submissionData);
+
+                // Attempt insertion of data inside database if no errors
+                if (is_array($this->errors) && empty($this->errors)) {
+                    $connection = new \MySQLi('localhost', 'root', '', 'dev_forum');
+                    if ($connection) {
+                        if (is_array($submissionData) && !empty($submissionData)) {
+                            $fields = [];
+                            $values = [];
+                            foreach ($submissionData as $submission) {
+                                $fields[] = $submission['name'];
+                                $values[] = $connection->real_escape_string($submission['value']);
+                            }
+                            // Insert join date
+                            $fields[] = 'joinDate';
+                            $values[] = date('Y-m-d');
+                        }
+
+                        if (is_array($fields) && !empty($fields)) {
+                            // Create necessary number of placeholder (?) / type (s) values
+                            $fieldCount = count($fields);
+                            $preparedVals = rtrim(str_repeat("?,", $fieldCount), ',');
+                            $bindParams = str_repeat("s", $fieldCount);
+
+                            // Split $fields var up for use in SQL query
+                            $fields = implode(',', $fields);
+                        }
+
+                        // Prepared statement
+                        $statement = mysqli_stmt_init($connection);
+                        $query = "INSERT INTO Users ($fields) VALUES ($preparedVals)";
+
+                        if (mysqli_stmt_prepare($statement, $query)) {
+                            mysqli_stmt_bind_param($statement, $bindParams, ...$values);
+                            mysqli_stmt_execute($statement);
+                        }
+                    }
+                }
             }
         }
     }
