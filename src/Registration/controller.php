@@ -25,6 +25,8 @@ class Controller
         ],
     ];
 
+    public $errors = [];
+
     public function processSubmission()
     {
         $submitted = $_POST['submit'] ?? '';
@@ -53,7 +55,6 @@ class Controller
     public function validate($submissionData)
     {
         if (is_array($submissionData) && !empty($submissionData)) {
-            $this->errors = [];
             foreach ($submissionData as $submission) {
                 $error = '';
                 $errorMsg = '';

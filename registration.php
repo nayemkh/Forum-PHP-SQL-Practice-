@@ -5,6 +5,7 @@ include_once 'global/autoloader.php';
 $registration = new Registration\Controller();
 $fields = $registration->fields;
 $registration->run();
+$errors = $registration->errors;
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +18,15 @@ $registration->run();
   </head>
   <body>
       <main>
+          <?php if (is_array($errors) && !empty($errors)) { ?>
+            <div class="alert alert-warning" role="alert">
+                <ul>
+                    <?php foreach ($errors as $error) { ?>
+                        <li><?=$error['message']?></li>
+                    <?php } ?>
+                </ul>
+            </div>
+          <?php } ?>
           <form method="POST" action="">
               <input type="hidden" name="submit" value="1">
             <?php foreach ($fields as $name => $field) { ?>
