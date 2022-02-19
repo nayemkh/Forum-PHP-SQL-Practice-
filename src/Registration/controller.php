@@ -45,8 +45,8 @@ class Controller
                         'chars' => strlen(trim($value)),
                     ];
                     $this->submissionData[] = $submission;
-                    $submissionData = $this->submissionData;
                 }
+                $submissionData = $this->submissionData;
                 $this->validate($submissionData);
 
                 // Attempt insertion of data inside database if no errors
