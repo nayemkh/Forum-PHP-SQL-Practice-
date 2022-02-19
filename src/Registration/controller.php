@@ -25,7 +25,10 @@ class Controller
         ],
     ];
 
-    public $errors = [];
+    public $messages = [
+        'error' => [],
+        'success' => []
+    ];
 
     public function processSubmission()
     {
@@ -50,7 +53,7 @@ class Controller
                 $this->validate($submissionData);
 
                 // Attempt insertion of data inside database if no errors
-                if (is_array($this->errors) && empty($this->errors)) {
+                if (is_array($this->messages['error']) && empty($this->messages['error'])) {
                     $connection = new \MySQLi('localhost', 'root', '', 'dev_forum');
                     if ($connection) {
                         if (is_array($submissionData) && !empty($submissionData)) {
@@ -88,6 +91,13 @@ class Controller
                             mysqli_stmt_bind_param($statement, $bindParams, ...$values);
                             mysqli_stmt_execute($statement);
                         }
+
+                        // Check for any SQL errors
+                        if (!mysqli_error($connection)) {
+                            $this->messages['success'][] = 'Thank you for registering.';
+                        } else {
+                            $this->messages['error'][] = 'There was a problem with your registration, please contact a member of support.';
+                        }
                     }
                 }
             }
@@ -98,23 +108,18 @@ class Controller
     {
         if (is_array($submissionData) && !empty($submissionData)) {
             foreach ($submissionData as $submission) {
-                $error = '';
-                $errorMsg = '';
+                $text = '';
                 $empty = $submission['chars'] === 0 ? 'true' : '';
                 // Perform extra validation if fields aren't empty
                 if ($empty) {
-                    $errorMsg = sprintf('The %s field cannot be empty', $submission['sanitised_name']);
+                    $text = sprintf('The %s field cannot be empty', $submission['sanitised_name']);
                 } else {
                     if ($submission['chars'] < $submission['min_chars']) {
-                        $errorMsg = sprintf('Your %s needs to be at least %s characters long', $submission['sanitised_name'], $submission['min_chars']);
+                        $text = sprintf('Your %s needs to be at least %s characters long', $submission['sanitised_name'], $submission['min_chars']);
                     }
                 }
-                if ($errorMsg) {
-                    $error = [
-                        'field' => $submission['name'],
-                        'message' => $errorMsg,
-                    ];
-                    $this->errors[] = $error;
+                if ($text) {
+                    $this->messages['error'][] = $text;
                 }
             }
         }
