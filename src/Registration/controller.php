@@ -58,7 +58,12 @@ class Controller
                             $values = [];
                             foreach ($submissionData as $submission) {
                                 $fields[] = $submission['name'];
-                                $values[] = $connection->real_escape_string($submission['value']);
+                                // Hash password field
+                                if ($submission['name'] !== 'password') {
+                                    $values[] = $connection->real_escape_string($submission['value']);
+                                } else {
+                                    $values[] = password_hash($connection->real_escape_string($submission['value']), PASSWORD_DEFAULT);
+                                }
                             }
                             // Insert join date
                             $fields[] = 'joinDate';
