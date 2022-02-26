@@ -1,6 +1,6 @@
 <?php
 
-namespace Registration;
+namespace Forum\Registration;
 
 class Controller
 {

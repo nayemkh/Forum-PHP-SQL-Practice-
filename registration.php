@@ -1,8 +1,8 @@
 <?php
 
-include_once 'global/autoloader.php';
+require_once 'vendor/autoload.php';
 
-$registration = new Registration\Controller();
+$registration = new Forum\Registration\Controller();
 $fields = $registration->fields;
 $registration->run();
 $messages = $registration->messages;
