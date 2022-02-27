@@ -106,6 +106,7 @@ class Controller
 
     public function validate($submissionData)
     {
+
         if (is_array($submissionData) && !empty($submissionData)) {
             foreach ($submissionData as $submission) {
                 $text = '';
@@ -124,7 +125,6 @@ class Controller
             }
         }
     }
-
     public function run()
     {
         $this->processSubmission();

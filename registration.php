@@ -1,11 +1,6 @@
 <?php
 
-require_once 'vendor/autoload.php';
-
-$registration = new Forum\Registration\Controller();
-$fields = $registration->fields;
-$registration->run();
-$messages = $registration->messages;
+require_once $_SERVER['DOCUMENT_ROOT'] . '/core/src/Bootstrap.php';
 ?>
 
 <!DOCTYPE html>
@@ -39,11 +34,13 @@ $messages = $registration->messages;
 
             <form method="POST" action="">
                 <input type="hidden" name="submit" value="1">
-                <?php foreach ($fields as $name => $field) { ?>
-                    <div class="form-group">
-                        <label for="<?=$name?>"><?=$field['placeholder']?></label>
-                        <input name="<?=$name?>" type="<?=$field['type']?>" placeholder="<?=$field['placeholder']?>"/>
-                    </div>
+                <?php if (is_array($fields) && !empty($fields)) { ?>
+                    <?php foreach ($fields as $name => $field) { ?>
+                        <div class="form-group">
+                            <label for="<?=$name?>"><?=$field['placeholder']?></label>
+                            <input name="<?=$name?>" type="<?=$field['type']?>" placeholder="<?=$field['placeholder']?>"/>
+                        </div>
+                    <?php } ?>
                 <?php } ?>
                 <div class="form-action">
                     <button type="submit" class="button-link">Register</button>

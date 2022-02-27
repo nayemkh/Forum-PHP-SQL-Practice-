@@ -1,6 +1,7 @@
 <?php
 
-require_once 'vendor/autoload.php'; ?>
+require_once $_SERVER['DOCUMENT_ROOT'] . '/core/src/Bootstrap.php';
+?>
 
 <!DOCTYPE html>
 <html lang="en">
