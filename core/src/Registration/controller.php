@@ -125,6 +125,7 @@ class Controller
             }
         }
     }
+
     public function run()
     {
         $this->processSubmission();

@@ -3,7 +3,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
-    $r->addRoute('POST', '/registration', ['Forum\Registration\Controller', 'run']);
+    $r->addRoute(['GET', 'POST'], '/registration', ['Forum\Registration\Controller', 'run']);
 });
 
 // Fetch method and URI
@@ -28,9 +28,9 @@ switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::FOUND:
         $className = $routeInfo[1][0];
         $method = $routeInfo[1][1];
-        $vars = $routeInfo[2];
         $class = new $className();
-        $class->$method($vars);
+        $class->$method();
+        // $vars = $routeInfo[2];
         // ... call $handler with $vars
         break;
 }

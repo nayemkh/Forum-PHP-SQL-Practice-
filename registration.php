@@ -13,8 +13,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/core/src/Bootstrap.php';
     </head>
     <body>
         <main>
-            <?php if (is_array($messages) && !empty($messages)) { ?>
-                <?php foreach ($messages as $type => $item) {
+            <?php if (is_array($class->messages) && !empty($class->messages)) { ?>
+                <?php foreach ($class->messages as $type => $item) {
                     if ($type === 'success') {
                         $alertClass = 'success';
                         $role = 'status';
@@ -34,8 +34,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/core/src/Bootstrap.php';
 
             <form method="POST" action="">
                 <input type="hidden" name="submit" value="1">
-                <?php if (is_array($fields) && !empty($fields)) { ?>
-                    <?php foreach ($fields as $name => $field) { ?>
+                <?php if (is_array($class->fields) && !empty($class->fields)) { ?>
+                    <?php foreach ($class->fields as $name => $field) { ?>
                         <div class="form-group">
                             <label for="<?=$name?>"><?=$field['placeholder']?></label>
                             <input name="<?=$name?>" type="<?=$field['type']?>" placeholder="<?=$field['placeholder']?>"/>
